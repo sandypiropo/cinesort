@@ -20,7 +20,7 @@ def index():
 
 @app.route('/api/genres')
 def get_genres():
-    """Get all movie genres"""
+    """Get all movie genres plus special LGBT category"""
     try:
         if not TMDB_API_KEY:
             return jsonify({'error': 'API key not configured'}), 500
@@ -36,6 +36,12 @@ def get_genres():
         
         data = response.json()
         genres = data.get('genres', [])
+        
+        # Add special LGBT category
+        genres.append({
+            'id': 999999,  # Special ID for LGBT
+            'name': 'LGBT+'
+        })
         
         return jsonify({'genres': genres})
     
@@ -60,7 +66,10 @@ def raffle_movie():
             'vote_count.gte': 100
         }
         
-        if genre_id:
+        # Handle LGBT+ as special case using keywords
+        if genre_id == '999999':  # Special ID for LGBT
+            params['with_keywords'] = '59967|59969|82295|162564'  # LGBT keywords
+        elif genre_id:
             params['with_genres'] = genre_id
         
         response = requests.get(url, params=params)
