@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineSort - Movie Raffle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>CineSort</h1>
+            <p class="subtitle">Don't know what to watch? Let destiny choose!</p>
+        </header>
+
+        <main>
+            <div class="raffle-section">
+                <button id="btnRaffle" class="btn-raffle">
+                    Raffle Movie
+                </button>
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Finding the perfect movie...</p>
+                </div>
+            </div>
+
+            <div id="result" class="result hidden">
+                <div class="movie-card">
+                    <div class="movie-backdrop" id="backdrop"></div>
+                    <div class="movie-content">
+                        <div class="movie-poster-container">
+                            <img id="poster" src="" alt="Movie poster" class="movie-poster">
+                        </div>
+                        <div class="movie-info">
+                            <h2 id="title" class="movie-title"></h2>
+                            <p id="originalTitle" class="original-title"></p>
+
+                            <div class="movie-meta">
+                                <span class="rating">
+                                    <span class="star">★</span>
+                                    <span id="rating"></span>
+                                </span>
+                                <span id="year" class="year"></span>
+                                <span id="runtime" class="runtime"></span>
+                            </div>
+
+                            <div id="genres" class="genres"></div>
+
+                            <div class="credits">
+                                <p id="director" class="director"></p>
+                                <p id="cast" class="cast"></p>
+                            </div>
+
+                            <p id="synopsis" class="synopsis"></p>
+
+                            <div class="actions">
+                                <button id="btnNew" class="btn-new">
+                                    Raffle Another
+                                </button>
+                                <a id="tmdbLink" href="#" target="_blank" class="btn-tmdb">
+                                    View on TMDb
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="erro" class="erro hidden">
+                <p class="erro-mensagem"></p>
+                <button id="btnTentarNovamente" class="btn-sortear">
+                    Tentar Novamente
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Developed by Sandy Piropo</p>
+        </footer>
+    </div>
+
+    <script>
+        const btnRaffle = document.getElementById('btnRaffle');
+        const btnNew = document.getElementById('btnNew');
+        const btnRetry = document.getElementById('btnRetry');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const error = document.getElementById('error');
+
+        async function raffleMovie() {
+            result.classList.add('hidden');
+            error.classList.add('hidden');
+            btnRaffle.classList.add('hidden');
+
+            loading.classList.remove('hidden');
+
+            try {
+                const response = await fetch('/api/raffle-movie');
+
+                if (!response.ok) {
+                    throw new Error('Error fetching movie');
+                }
+
+                const movie = await response.json();
+
+                if (movie.error) {
+                    throw new Error(movie.error);
+                }
+
+                document.getElementById('title').textContent = movie.title;
+                document.getElementById('originalTitle').textContent =
+                    movie.original_title !== movie.title ? `(${movie.original_title})` : '';
+                document.getElementById('rating').textContent = movie.rating.toFixed(1);
+                document.getElementById('synopsis').textContent = movie.synopsis || 'Synopsis not available';
+
+                if (movie.release_date) {
+                    const year = new Date(movie.release_date).getFullYear();
+                    document.getElementById('year').textContent = year;
+                }
+
+                if (movie.runtime && movie.runtime > 0) {
+                    const hours = Math.floor(movie.runtime / 60);
+                    const minutes = movie.runtime % 60;
+                    document.getElementById('runtime').textContent =
+                        `${hours}h ${minutes}min`;
+                }
+
+                const genresContainer = document.getElementById('genres');
+                genresContainer.innerHTML = '';
+                movie.genres.forEach(genre => {
+                    const badge = document.createElement('span');
+                    badge.className = 'genre-badge';
+                    badge.textContent = genre;
+                    genresContainer.appendChild(badge);
+                });
+
+                if (movie.director) {
+                    document.getElementById('director').innerHTML =
+                        `<strong>Director:</strong> ${movie.director}`;
+                } else {
+                    document.getElementById('director').textContent = '';
+                }
+
+                if (movie.cast && movie.cast.length > 0) {
+                    document.getElementById('cast').innerHTML =
+                        `<strong>Cast:</strong> ${movie.cast.join(', ')}`;
+                } else {
+                    document.getElementById('cast').textContent = '';
+                }
+
+                const poster = document.getElementById('poster');
+                if (movie.poster) {
+                    poster.src = movie.poster;
+                    poster.alt = `Poster for ${movie.title}`;
+                } else {
+                    poster.src = 'https://via.placeholder.com/500x750/333/fff?text=No+Poster';
+                }
+
+                const backdrop = document.getElementById('backdrop');
+                if (movie.backdrop) {
+                    backdrop.style.backgroundImage = `url(${movie.backdrop})`;
+                }
+
+                document.getElementById('tmdbLink').href =
+                    `https://www.themoviedb.org/movie/${movie.id}`;
+
+                loading.classList.add('hidden');
+                result.classList.remove('hidden');
+
+                setTimeout(() => {
+                    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+
+            } catch (err) {
+                console.error('Error:', err);
+                loading.classList.add('hidden');
+                error.classList.remove('hidden');
+                document.querySelector('.error-message').textContent =
+                    'Oops! Something went wrong. Try again.';
+            }
+        }
+
+        btnRaffle.addEventListener('click', raffleMovie);
+        btnNew.addEventListener('click', () => {
+            result.classList.add('hidden');
+            btnRaffle.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        btnRetry.addEventListener('click', raffleMovie);
+    </script>
+</body>
+
+</html>
