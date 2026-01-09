@@ -17,6 +17,13 @@
 
         <main>
             <div class="raffle-section">
+                <div class="genre-selector">
+                    <label for="genreSelect">Select Genre (Optional)</label>
+                    <select id="genreSelect" class="genre-dropdown">
+                        <option value="">All Genres</option>
+                    </select>
+                </div>
+
                 <button id="btnRaffle" class="btn-raffle">
                     Raffle Movie
                 </button>
@@ -55,6 +62,12 @@
 
                             <p id="synopsis" class="synopsis"></p>
 
+                            <div id="trailerContainer" class="trailer-container hidden">
+                                <h3>Trailer</h3>
+                                <iframe id="trailerFrame" width="100%" height="400" frameborder="0"
+                                    allowfullscreen></iframe>
+                            </div>
+
                             <div class="actions">
                                 <button id="btnNew" class="btn-new">
                                     Raffle Another
@@ -84,20 +97,37 @@
     <script>
         const btnRaffle = document.getElementById('btnRaffle');
         const btnNew = document.getElementById('btnNew');
-        const btnRetry = document.getElementById('btnRetry');
+        const genreSelect = document.getElementById('genreSelect');
         const loading = document.getElementById('loading');
         const result = document.getElementById('result');
-        const error = document.getElementById('error');
+
+        // Load genres on page load
+        async function loadGenres() {
+            try {
+                const response = await fetch('/api/genres');
+                const data = await response.json();
+
+                if (data.genres) {
+                    data.genres.forEach(genre => {
+                        const option = document.createElement('option');
+                        option.value = genre.id;
+                        option.textContent = genre.name;
+                        genreSelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading genres:', error);
+            }
+        }
 
         async function raffleMovie() {
             result.classList.add('hidden');
-            error.classList.add('hidden');
-            btnRaffle.classList.add('hidden');
-
             loading.classList.remove('hidden');
 
             try {
-                const response = await fetch('/api/raffle-movie');
+                const genreId = genreSelect.value;
+                const url = genreId ? `/api/raffle-movie?genre_id=${genreId}` : '/api/raffle-movie';
+                const response = await fetch(url);
 
                 if (!response.ok) {
                     throw new Error('Error fetching movie');
@@ -163,6 +193,15 @@
                     backdrop.style.backgroundImage = `url(${movie.backdrop})`;
                 }
 
+                // Handle trailer
+                const trailerContainer = document.getElementById('trailerContainer');
+                if (movie.trailer_url) {
+                    document.getElementById('trailerFrame').src = movie.trailer_url;
+                    trailerContainer.classList.remove('hidden');
+                } else {
+                    trailerContainer.classList.add('hidden');
+                }
+
                 document.getElementById('tmdbLink').href =
                     `https://www.themoviedb.org/movie/${movie.id}`;
 
@@ -176,7 +215,6 @@
             } catch (err) {
                 console.error('Error:', err);
                 loading.classList.add('hidden');
-                error.classList.remove('hidden');
                 document.querySelector('.error-message').textContent =
                     'Oops! Something went wrong. Try again.';
             }
@@ -185,10 +223,11 @@
         btnRaffle.addEventListener('click', raffleMovie);
         btnNew.addEventListener('click', () => {
             result.classList.add('hidden');
-            btnRaffle.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        btnRetry.addEventListener('click', raffleMovie);
+
+        // Load genres when page loads
+        window.addEventListener('load', loadGenres);
     </script>
 </body>
 

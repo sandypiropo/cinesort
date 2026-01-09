@@ -51,6 +51,42 @@ main {
     padding: 40px 20px;
 }
 
+.genre-selector {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.genre-selector label {
+    color: #aaa;
+    font-size: 0.95rem;
+    display: block;
+}
+
+.genre-dropdown {
+    padding: 10px 14px;
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 3px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    width: 240px;
+    transition: all 0.3s ease;
+}
+
+.genre-dropdown:hover {
+    border-color: #666;
+    background: #2a2a2a;
+}
+
+.genre-dropdown:focus {
+    outline: none;
+    border-color: #888;
+}
+
 .btn-raffle {
     background: #fff;
     color: #000;
@@ -248,6 +284,24 @@ main {
     text-align: justify;
 }
 
+.trailer-container {
+    margin: 20px 0;
+    padding: 15px;
+    background: #0a0a0a;
+    border: 1px solid #333;
+    border-radius: 3px;
+}
+
+.trailer-container h3 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.trailer-container iframe {
+    border-radius: 3px;
+}
+
 .actions {
     display: flex;
     gap: 12px;
@@ -314,41 +368,54 @@ footer {
         font-size: 2rem;
     }
 
-    .filme-content {
+    .genre-selector {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .genre-dropdown {
+        width: 100%;
+    }
+
+    .movie-content {
         flex-direction: column;
         align-items: center;
         gap: 20px;
         padding: 20px;
     }
 
-    .filme-poster {
+    .movie-poster {
         width: 200px;
     }
 
-    .filme-titulo {
+    .movie-title {
         font-size: 1.6rem;
         text-align: center;
     }
 
-    .titulo-original {
+    .original-title {
         text-align: center;
     }
 
-    .filme-meta {
+    .movie-meta {
         justify-content: center;
         padding-bottom: 12px;
     }
 
-    .acoes {
+    .actions {
         flex-direction: column;
     }
 
-    .btn-sortear {
+    .btn-raffle {
         padding: 14px 36px;
         font-size: 1rem;
     }
 
-    .sinopse {
+    .synopsis {
         text-align: left;
+    }
+
+    .trailer-container iframe {
+        height: 250px;
     }
 }

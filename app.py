@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import requests
 import os
 from dotenv import load_dotenv
@@ -18,12 +18,37 @@ TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'
 def index():
     return render_template('index.html')
 
-@app.route('/api/raffle-movie')
+@app.route('/api/genres')
+def get_genres():
+    """Get all movie genres"""
+    try:
+        if not TMDB_API_KEY:
+            return jsonify({'error': 'API key not configured'}), 500
+        
+        url = f'{TMDB_BASE_URL}/genre/movie/list'
+        params = {
+            'api_key': TMDB_API_KEY,
+            'language': 'en-US'
+        }
+        
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        
+        data = response.json()
+        genres = data.get('genres', [])
+        
+        return jsonify({'genres': genres})
+    
+    except Exception as e:
+        return jsonify({'error': f'Error fetching genres: {str(e)}'}), 500
+
+@app.route('/api/raffle-movie', methods=['GET'])
 def raffle_movie():
     try:
         if not TMDB_API_KEY:
             return jsonify({'error': 'API key not configured. Set TMDB_API_KEY in .env file'}), 500
         
+        genre_id = request.args.get('genre_id')
         random_page = random.randint(1, 500)
         
         url = f'{TMDB_BASE_URL}/discover/movie'
@@ -34,6 +59,9 @@ def raffle_movie():
             'page': random_page,
             'vote_count.gte': 100
         }
+        
+        if genre_id:
+            params['with_genres'] = genre_id
         
         response = requests.get(url, params=params)
         response.raise_for_status()
@@ -50,12 +78,20 @@ def raffle_movie():
         details_params = {
             'api_key': TMDB_API_KEY,
             'language': 'en-US',
-            'append_to_response': 'credits'
+            'append_to_response': 'credits,videos'
         }
         
         details_response = requests.get(details_url, params=details_params)
         details_response.raise_for_status()
         details = details_response.json()
+        
+        # Extract trailer/video
+        trailer_url = None
+        videos = details.get('videos', {}).get('results', [])
+        for video in videos:
+            if video['site'] == 'YouTube' and video['type'] == 'Trailer':
+                trailer_url = f"https://www.youtube.com/embed/{video['key']}"
+                break
         
         movie_data = {
             'id': details['id'],
@@ -69,7 +105,8 @@ def raffle_movie():
             'genres': [g['name'] for g in details.get('genres', [])],
             'runtime': details.get('runtime', 0),
             'director': None,
-            'cast': []
+            'cast': [],
+            'trailer_url': trailer_url
         }
         
         if 'credits' in details and 'crew' in details['credits']:
