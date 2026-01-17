@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineSort - Movie Raffle</title>
+    <title>CineSort - Movie & TV Raffle</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 
@@ -16,76 +16,95 @@
         </header>
 
         <main>
-            <div class="raffle-section">
-                <div class="genre-selector">
-                    <label for="genreSelect">Select Genre (Optional)</label>
-                    <select id="genreSelect" class="genre-dropdown">
-                        <option value="">All Genres</option>
-                    </select>
-                </div>
-
-                <button id="btnRaffle" class="btn-raffle">
-                    Raffle Movie
-                </button>
-                <div id="loading" class="loading hidden">
-                    <div class="spinner"></div>
-                    <p>Finding the perfect movie...</p>
+            <!-- Home Screen -->
+            <div id="homeScreen" class="home-screen">
+                <div class="type-selector">
+                    <button id="btnMovies" class="btn-type-selector">
+                        <span class="btn-icon">🎬</span>
+                        <span class="btn-text">Movies</span>
+                    </button>
+                    <button id="btnSeries" class="btn-type-selector">
+                        <span class="btn-icon">📺</span>
+                        <span class="btn-text">TV Series</span>
+                    </button>
                 </div>
             </div>
 
-            <div id="result" class="result hidden">
-                <div class="movie-card">
-                    <div class="movie-backdrop" id="backdrop"></div>
-                    <div class="movie-content">
-                        <div class="movie-poster-container">
-                            <img id="poster" src="" alt="Movie poster" class="movie-poster">
-                        </div>
-                        <div class="movie-info">
-                            <h2 id="title" class="movie-title"></h2>
-                            <p id="originalTitle" class="original-title"></p>
+            <!-- Raffle Screen -->
+            <div id="raffleScreen" class="raffle-screen hidden">
+                <button id="btnBack" class="btn-back">← Back</button>
 
-                            <div class="movie-meta">
-                                <span class="rating">
-                                    <span class="star">★</span>
-                                    <span id="rating"></span>
-                                </span>
-                                <span id="year" class="year"></span>
-                                <span id="runtime" class="runtime"></span>
+                <div class="raffle-section">
+                    <div class="genre-selector">
+                        <label for="genreSelect">Select Genre (Optional)</label>
+                        <select id="genreSelect" class="genre-dropdown">
+                            <option value="">All Genres</option>
+                        </select>
+                    </div>
+
+                    <button id="btnRaffle" class="btn-raffle">
+                        Raffle
+                    </button>
+                    <div id="loading" class="loading hidden">
+                        <div class="spinner"></div>
+                        <p>Finding the perfect option...</p>
+                    </div>
+                </div>
+
+                <div id="result" class="result hidden">
+                    <div class="movie-card">
+                        <div class="movie-backdrop" id="backdrop"></div>
+                        <div class="movie-content">
+                            <div class="movie-poster-container">
+                                <img id="poster" src="" alt="Poster" class="movie-poster">
                             </div>
+                            <div class="movie-info">
+                                <h2 id="title" class="movie-title"></h2>
+                                <p id="originalTitle" class="original-title"></p>
 
-                            <div id="genres" class="genres"></div>
+                                <div class="movie-meta">
+                                    <span class="rating">
+                                        <span class="star">★</span>
+                                        <span id="rating"></span>
+                                    </span>
+                                    <span id="year" class="year"></span>
+                                    <span id="runtime" class="runtime"></span>
+                                </div>
 
-                            <div class="credits">
-                                <p id="director" class="director"></p>
-                                <p id="cast" class="cast"></p>
-                            </div>
+                                <div id="genres" class="genres"></div>
 
-                            <p id="synopsis" class="synopsis"></p>
+                                <div class="credits">
+                                    <p id="director" class="director"></p>
+                                    <p id="cast" class="cast"></p>
+                                </div>
 
-                            <div id="trailerContainer" class="trailer-container hidden">
-                                <h3>Trailer</h3>
-                                <iframe id="trailerFrame" width="100%" height="400" frameborder="0"
-                                    allowfullscreen></iframe>
-                            </div>
+                                <p id="synopsis" class="synopsis"></p>
 
-                            <div class="actions">
-                                <button id="btnNew" class="btn-new">
-                                    Raffle Another
-                                </button>
-                                <a id="tmdbLink" href="#" target="_blank" class="btn-tmdb">
-                                    View on TMDb
-                                </a>
+                                <div id="trailerContainer" class="trailer-container hidden">
+                                    <h3>Trailer</h3>
+                                    <iframe id="trailerFrame" width="100%" height="400" frameborder="0"
+                                        allowfullscreen></iframe>
+                                </div>
+
+                                <div class="actions">
+                                    <button id="btnNew" class="btn-new">
+                                        Raffle Another
+                                    </button>
+                                    <a id="tmdbLink" href="#" target="_blank" class="btn-tmdb">
+                                        View on TMDb
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="erro" class="erro hidden">
-                <p class="erro-mensagem"></p>
-                <button id="btnTentarNovamente" class="btn-sortear">
-                    Tentar Novamente
-                </button>
+                <div id="erro" class="erro hidden">
+                    <p class="erro-mensagem"></p>
+                    <button id="btnTentarNovamente" class="btn-sortear">
+                        Try Again
+                    </button>
+                </div>
             </div>
         </main>
 
@@ -95,16 +114,59 @@
     </div>
 
     <script>
+        // State
+        let currentType = null; // 'movie' or 'tv'
+
+        // DOM Elements
+        const homeScreen = document.getElementById('homeScreen');
+        const raffleScreen = document.getElementById('raffleScreen');
+        const btnMovies = document.getElementById('btnMovies');
+        const btnSeries = document.getElementById('btnSeries');
+        const btnBack = document.getElementById('btnBack');
         const btnRaffle = document.getElementById('btnRaffle');
         const btnNew = document.getElementById('btnNew');
         const genreSelect = document.getElementById('genreSelect');
         const loading = document.getElementById('loading');
         const result = document.getElementById('result');
 
+        // Navigation
+        btnMovies.addEventListener('click', () => {
+            currentType = 'movie';
+            showRaffleScreen();
+        });
+
+        btnSeries.addEventListener('click', () => {
+            currentType = 'tv';
+            showRaffleScreen();
+        });
+
+        btnBack.addEventListener('click', () => {
+            currentType = null;
+            showHomeScreen();
+        });
+
+        function showHomeScreen() {
+            homeScreen.classList.remove('hidden');
+            raffleScreen.classList.add('hidden');
+            result.classList.add('hidden');
+            loading.classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showRaffleScreen() {
+            homeScreen.classList.add('hidden');
+            raffleScreen.classList.remove('hidden');
+            result.classList.add('hidden');
+            loading.classList.add('hidden');
+            genreSelect.innerHTML = '<option value="">All Genres</option>';
+            loadGenres();
+        }
+
         // Load genres on page load
         async function loadGenres() {
             try {
-                const response = await fetch('/api/genres');
+                const endpoint = currentType === 'tv' ? '/api/genres-tv' : '/api/genres';
+                const response = await fetch(endpoint);
                 const data = await response.json();
 
                 if (data.genres) {
@@ -126,84 +188,87 @@
 
             try {
                 const genreId = genreSelect.value;
-                const url = genreId ? `/api/raffle-movie?genre_id=${genreId}` : '/api/raffle-movie';
+                const endpoint = currentType === 'tv' ? '/api/raffle-tv' : '/api/raffle-movie';
+                const url = genreId ? `${endpoint}?genre_id=${genreId}` : endpoint;
                 const response = await fetch(url);
 
                 if (!response.ok) {
-                    throw new Error('Error fetching movie');
+                    throw new Error('Error fetching');
                 }
 
-                const movie = await response.json();
+                const data = await response.json();
 
-                if (movie.error) {
-                    throw new Error(movie.error);
+                if (data.error) {
+                    throw new Error(data.error);
                 }
 
-                document.getElementById('title').textContent = movie.title;
+                document.getElementById('title').textContent = data.title;
                 document.getElementById('originalTitle').textContent =
-                    movie.original_title !== movie.title ? `(${movie.original_title})` : '';
-                document.getElementById('rating').textContent = movie.rating.toFixed(1);
-                document.getElementById('synopsis').textContent = movie.synopsis || 'Synopsis not available';
+                    data.original_title !== data.title ? `(${data.original_title})` : '';
+                document.getElementById('rating').textContent = data.rating.toFixed(1);
+                document.getElementById('synopsis').textContent = data.synopsis || 'Synopsis not available';
 
-                if (movie.release_date) {
-                    const year = new Date(movie.release_date).getFullYear();
+                if (data.release_date) {
+                    const year = new Date(data.release_date).getFullYear();
                     document.getElementById('year').textContent = year;
                 }
 
-                if (movie.runtime && movie.runtime > 0) {
-                    const hours = Math.floor(movie.runtime / 60);
-                    const minutes = movie.runtime % 60;
+                if (data.runtime && data.runtime > 0) {
+                    const hours = Math.floor(data.runtime / 60);
+                    const minutes = data.runtime % 60;
                     document.getElementById('runtime').textContent =
                         `${hours}h ${minutes}min`;
+                } else {
+                    document.getElementById('runtime').textContent = '';
                 }
 
                 const genresContainer = document.getElementById('genres');
                 genresContainer.innerHTML = '';
-                movie.genres.forEach(genre => {
+                data.genres.forEach(genre => {
                     const badge = document.createElement('span');
                     badge.className = 'genre-badge';
                     badge.textContent = genre;
                     genresContainer.appendChild(badge);
                 });
 
-                if (movie.director) {
+                if (data.director) {
                     document.getElementById('director').innerHTML =
-                        `<strong>Director:</strong> ${movie.director}`;
+                        `<strong>Director:</strong> ${data.director}`;
                 } else {
                     document.getElementById('director').textContent = '';
                 }
 
-                if (movie.cast && movie.cast.length > 0) {
+                if (data.cast && data.cast.length > 0) {
                     document.getElementById('cast').innerHTML =
-                        `<strong>Cast:</strong> ${movie.cast.join(', ')}`;
+                        `<strong>Cast:</strong> ${data.cast.join(', ')}`;
                 } else {
                     document.getElementById('cast').textContent = '';
                 }
 
                 const poster = document.getElementById('poster');
-                if (movie.poster) {
-                    poster.src = movie.poster;
-                    poster.alt = `Poster for ${movie.title}`;
+                if (data.poster) {
+                    poster.src = data.poster;
+                    poster.alt = `Poster for ${data.title}`;
                 } else {
                     poster.src = 'https://via.placeholder.com/500x750/333/fff?text=No+Poster';
                 }
 
                 const backdrop = document.getElementById('backdrop');
-                if (movie.backdrop) {
-                    backdrop.style.backgroundImage = `url(${movie.backdrop})`;
+                if (data.backdrop) {
+                    backdrop.style.backgroundImage = `url(${data.backdrop})`;
                 }
 
                 // Handle trailer
                 const trailerContainer = document.getElementById('trailerContainer');
-                if (movie.trailer_url) {
-                    document.getElementById('trailerFrame').src = movie.trailer_url;
+                if (data.trailer_url) {
+                    document.getElementById('trailerFrame').src = data.trailer_url;
                     trailerContainer.classList.remove('hidden');
                 } else {
                     trailerContainer.classList.add('hidden');
                 }
 
                 document.getElementById('tmdbLink').href =
-                    `https://www.themoviedb.org/movie/${movie.id}`;
+                    `https://www.themoviedb.org/${currentType}/${data.id}`;
 
                 loading.classList.add('hidden');
                 result.classList.remove('hidden');
@@ -215,7 +280,7 @@
             } catch (err) {
                 console.error('Error:', err);
                 loading.classList.add('hidden');
-                document.querySelector('.error-message').textContent =
+                document.querySelector('.erro-mensagem').textContent =
                     'Oops! Something went wrong. Try again.';
             }
         }
@@ -227,7 +292,9 @@
         });
 
         // Load genres when page loads
-        window.addEventListener('load', loadGenres);
+        window.addEventListener('load', () => {
+            showHomeScreen();
+        });
     </script>
 </body>
 

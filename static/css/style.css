@@ -46,6 +46,86 @@ main {
     align-items: center;
 }
 
+/* Home Screen */
+.home-screen {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.type-selector {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-type-selector {
+    width: 280px;
+    height: 280px;
+    background: #222;
+    border: 2px solid #444;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-family: inherit;
+}
+
+.btn-type-selector:hover {
+    background: #2a2a2a;
+    border-color: #666;
+    transform: scale(1.05);
+}
+
+.btn-type-selector:active {
+    transform: scale(0.95);
+}
+
+.btn-icon {
+    font-size: 4rem;
+}
+
+.btn-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+/* Raffle Screen */
+.raffle-screen {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.btn-back {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.btn-back:hover {
+    background: #222;
+    border-color: #666;
+}
+
 .raffle-section {
     text-align: center;
     padding: 40px 20px;
@@ -366,6 +446,25 @@ footer {
 @media (max-width: 768px) {
     header h1 {
         font-size: 2rem;
+    }
+
+    .type-selector {
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .btn-type-selector {
+        width: 220px;
+        height: 220px;
+        gap: 15px;
+    }
+
+    .btn-icon {
+        font-size: 3rem;
+    }
+
+    .btn-text {
+        font-size: 1.1rem;
     }
 
     .genre-selector {
