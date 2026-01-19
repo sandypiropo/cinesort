@@ -109,7 +109,7 @@ def raffle_movie():
         movies = data.get('results', [])
         
         if not movies:
-            return jsonify({'error': 'No movies found'}), 404
+            return jsonify({'error': 'No movies found with the selected filters. Try another genre!'}), 404
         
         movie = random.choice(movies)
         
@@ -198,7 +198,7 @@ def raffle_tv():
         shows = data.get('results', [])
         
         if not shows:
-            return jsonify({'error': 'No TV shows found'}), 404
+            return jsonify({'error': 'No TV shows found with the selected filters. Try another genre!'}), 404
         
         show = random.choice(shows)
         

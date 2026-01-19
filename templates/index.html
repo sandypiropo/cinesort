@@ -185,6 +185,7 @@
 
         async function raffleMovie() {
             result.classList.add('hidden');
+            document.getElementById('erro').classList.add('hidden');
             loading.classList.remove('hidden');
 
             try {
@@ -281,15 +282,38 @@
             } catch (err) {
                 console.error('Error:', err);
                 loading.classList.add('hidden');
-                document.querySelector('.erro-mensagem').textContent =
-                    'Oops! Something went wrong. Try again.';
+                result.classList.add('hidden');
+                
+                const erro = document.getElementById('erro');
+                const erroMensagem = document.querySelector('.erro-mensagem');
+                
+                // Check if it's a "not found" error
+                if (err.message.includes('No movies found') || err.message.includes('No TV shows found')) {
+                    erroMensagem.textContent = currentType === 'tv' 
+                        ? 'No TV series found with the selected filters. Try another genre or "All Genres"!'
+                        : 'No movies found with the selected filters. Try another genre or "All Genres"!';
+                } else {
+                    erroMensagem.textContent = 'Oops! Something went wrong. Try again.';
+                }
+                
+                erro.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    erro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
             }
         }
 
         btnRaffle.addEventListener('click', raffleMovie);
         btnNew.addEventListener('click', () => {
             result.classList.add('hidden');
+            document.getElementById('erro').classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        document.getElementById('btnTentarNovamente').addEventListener('click', () => {
+            document.getElementById('erro').classList.add('hidden');
+            raffleMovie();
         });
 
         // Load genres when page loads
