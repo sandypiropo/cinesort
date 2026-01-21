@@ -11,17 +11,12 @@
 <body>
     <div class="particles"></div>
     <div class="container" id="appContainer">
-        <header id="mainHeader">
-            <h1>CineSort</h1>
-            <p class="subtitle">Don't know what to watch? Let destiny choose!</p>
-        </header>
-
         <main>
             <!-- Home Screen -->
             <div id="homeScreen" class="home-screen">
                 <div class="figma-container">
                     <div class="figma-background"></div>
-                    <h1 class="figma-logo">CineSort</h1>
+                    <h1 class="figma-logo" id="logoHome" style="cursor: pointer;">CineSort</h1>
                     <a href="#" class="figma-about">About this project</a>
                     <div class="figma-navbar-line"></div>
                     <button id="btnMovies" class="figma-btn-movies">Movies</button>
@@ -31,92 +26,96 @@
             </div>
 
             <!-- Raffle Screen -->
-            <div id="raffleScreen" class="raffle-screen hidden">
-                <button id="btnBack" class="btn-back">← Back</button>
+            <div id="raffleScreen" class="home-screen hidden">
+                <div class="figma-container">
+                    <div class="figma-background"></div>
+                    <h1 class="figma-logo" id="logoBack" style="cursor: pointer;">CineSort</h1>
+                    <a href="#" class="figma-about">About this project</a>
+                    <div class="figma-navbar-line"></div>
 
-                <div class="raffle-section">
-                    <button id="btnRaffle" class="btn-raffle">
-                        Raffle
-                    </button>
+                    <div class="raffle-content">
+                        <button id="btnRaffle" class="btn-raffle-figma">
+                            Raffle
+                        </button>
 
-                    <div class="genre-filter-toggle">
-                        <a href="#" id="toggleGenreFilter">Click here to filter by genre</a>
-                    </div>
+                        <div class="genre-filter-toggle">
+                            <a href="#" id="toggleGenreFilter">Click here to filter by genre</a>
+                        </div>
 
-                    <div class="genre-selector hidden" id="genreSelector">
-                        <select id="genreSelect" class="genre-dropdown">
-                            <option value="">All Genres</option>
-                        </select>
-                    </div>
+                        <div class="genre-selector hidden" id="genreSelector">
+                            <select id="genreSelect" class="genre-dropdown">
+                                <option value="">All Genres</option>
+                            </select>
+                        </div>
 
-                    <div id="loading" class="loading hidden">
-                        <div class="spinner"></div>
-                        <p>Finding the perfect option...</p>
-                    </div>
-                </div>
+                        <div id="loading" class="loading hidden">
+                            <div class="spinner"></div>
+                            <p>Finding the perfect option...</p>
+                        </div>
 
-                <div id="result" class="result hidden">
-                    <div class="movie-card">
-                        <div class="movie-backdrop" id="backdrop"></div>
-                        <div class="movie-content">
-                            <div class="movie-poster-section">
-                                <div class="movie-poster-container">
-                                    <img id="poster" src="" alt="Poster" class="movie-poster">
+                        <div id="result" class="result hidden">
+                            <div class="movie-card">
+                                <div class="movie-backdrop" id="backdrop"></div>
+                                <div class="movie-content">
+                                    <div class="movie-poster-section">
+                                        <div class="movie-poster-container">
+                                            <img id="poster" src="" alt="Poster" class="movie-poster">
+                                        </div>
+                                        <h2 id="title" class="movie-title"></h2>
+                                        <div class="movie-meta">
+                                            <span class="rating">
+                                                <span class="star">★</span>
+                                                <span id="rating"></span>
+                                            </span>
+                                            <span class="meta-separator">•</span>
+                                            <span id="year" class="year"></span>
+                                            <span class="meta-separator">•</span>
+                                            <span id="runtime" class="runtime"></span>
+                                        </div>
+                                        <button id="btnTrailer" class="btn-trailer">
+                                            <span class="play-icon">▶</span> Watch Trailer
+                                        </button>
+                                    </div>
+
+                                    <div class="movie-details">
+                                        <div id="genres" class="genres"></div>
+
+                                        <div class="credits">
+                                            <p id="director" class="director"></p>
+                                            <p id="cast" class="cast"></p>
+                                        </div>
+
+                                        <p id="synopsis" class="synopsis"></p>
+
+                                        <div class="actions">
+                                            <button id="btnNew" class="btn-new">
+                                                Raffle Another
+                                            </button>
+                                            <a id="tmdbLink" href="#" target="_blank" class="btn-tmdb">
+                                                View on TMDb
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <h2 id="title" class="movie-title"></h2>
-                                <div class="movie-meta">
-                                    <span class="rating">
-                                        <span class="star">★</span>
-                                        <span id="rating"></span>
-                                    </span>
-                                    <span class="meta-separator">•</span>
-                                    <span id="year" class="year"></span>
-                                    <span class="meta-separator">•</span>
-                                    <span id="runtime" class="runtime"></span>
-                                </div>
-                                <button id="btnTrailer" class="btn-trailer">
-                                    <span class="play-icon">▶</span> Watch Trailer
-                                </button>
-                            </div>
 
-                            <div class="movie-details">
-                                <div id="genres" class="genres"></div>
-
-                                <div class="credits">
-                                    <p id="director" class="director"></p>
-                                    <p id="cast" class="cast"></p>
-                                </div>
-
-                                <p id="synopsis" class="synopsis"></p>
-
-                                <div class="actions">
-                                    <button id="btnNew" class="btn-new">
-                                        Raffle Another
-                                    </button>
-                                    <a id="tmdbLink" href="#" target="_blank" class="btn-tmdb">
-                                        View on TMDb
-                                    </a>
+                                <div id="trailerContainer" class="trailer-modal hidden">
+                                    <div class="trailer-modal-content">
+                                        <button id="closeTrailer" class="close-trailer">✕</button>
+                                        <iframe id="trailerFrame" width="100%" height="100%" frameborder="0"
+                                            allowfullscreen></iframe>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div id="trailerContainer" class="trailer-modal hidden">
-                            <div class="trailer-modal-content">
-                                <button id="closeTrailer" class="close-trailer">✕</button>
-                                <iframe id="trailerFrame" width="100%" height="100%" frameborder="0"
-                                    allowfullscreen></iframe>
-                            </div>
-                        </div>
+                    <div id="erro" class="erro hidden">
+                        <p class="erro-mensagem"></p>
+                        <button id="btnTentarNovamente" class="btn-sortear">
+                            Try Again
+                        </button>
                     </div>
                 </div>
-
-                <div id="erro" class="erro hidden">
-                    <p class="erro-mensagem"></p>
-                    <button id="btnTentarNovamente" class="btn-sortear">
-                        Try Again
-                    </button>
-                </div>
-            </div>
         </main>
     </div>
 
@@ -129,13 +128,14 @@
         const raffleScreen = document.getElementById('raffleScreen');
         const btnMovies = document.getElementById('btnMovies');
         const btnSeries = document.getElementById('btnSeries');
-        const btnBack = document.getElementById('btnBack');
+        const logoHome = document.getElementById('logoHome');
+        const logoBack = document.getElementById('logoBack');
         const btnRaffle = document.getElementById('btnRaffle');
         const btnNew = document.getElementById('btnNew');
+        const btnBackResult = document.getElementById('btnBackResult');
         const genreSelect = document.getElementById('genreSelect');
         const loading = document.getElementById('loading');
         const result = document.getElementById('result');
-        const mainHeader = document.getElementById('mainHeader');
         const appContainer = document.getElementById('appContainer');
 
         // Navigation
@@ -149,10 +149,28 @@
             showRaffleScreen();
         });
 
-        btnBack.addEventListener('click', () => {
-            currentType = null;
-            showHomeScreen();
-        });
+        // Click no logo volta para home
+        if (logoHome) {
+            logoHome.addEventListener('click', () => {
+                currentType = null;
+                showHomeScreen();
+            });
+        }
+
+        if (logoBack) {
+            logoBack.addEventListener('click', () => {
+                currentType = null;
+                showHomeScreen();
+            });
+        }
+
+        // Botão voltar no resultado
+        if (btnBackResult) {
+            btnBackResult.addEventListener('click', () => {
+                result.classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
 
         // Toggle genre filter
         const toggleGenreFilter = document.getElementById('toggleGenreFilter');
@@ -168,7 +186,6 @@
             raffleScreen.classList.add('hidden');
             result.classList.add('hidden');
             loading.classList.add('hidden');
-            mainHeader.style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -179,7 +196,7 @@
             loading.classList.add('hidden');
             genreSelector.classList.add('hidden');
             genreSelect.innerHTML = '<option value="">All Genres</option>';
-            mainHeader.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             loadGenres();
         }
 
