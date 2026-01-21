@@ -153,8 +153,10 @@ main {
 
 .figma-container {
     position: relative;
-    width: 1920px;
-    height: 1080px;
+    width: 100%;
+    height: 100%;
+    max-width: 1920px;
+    max-height: 1080px;
     overflow: hidden;
 }
 
@@ -172,15 +174,13 @@ main {
 
 .figma-logo {
     position: absolute;
-    left: 62px;
-    top: 90px;
-    width: 173px;
-    height: 52px;
+    left: 3.23%;
+    top: 8.33%;
     font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: 200;
-    font-size: 45px;
-    line-height: 52px;
+    font-size: 2.34vw;
+    line-height: 1.16;
     letter-spacing: 0px;
     color: #FFFFFF;
     margin: 0;
@@ -188,15 +188,13 @@ main {
 
 .figma-about {
     position: absolute;
-    left: 1633px;
-    top: 105px;
-    width: 230px;
-    height: 52px;
+    left: 85.05%;
+    top: 9.72%;
     font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: 200;
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 1.25vw;
+    line-height: 1.33;
     letter-spacing: 0px;
     color: #FFFFFF;
     text-decoration: none;
@@ -211,9 +209,9 @@ main {
 
 .figma-navbar-line {
     position: absolute;
-    left: 40px;
-    top: 150px;
-    width: calc(100% - 80px);
+    left: 2.08%;
+    top: 13.89%;
+    width: 95.83%;
     height: 1px;
     background: #FFFFFF;
     opacity: 1;
@@ -221,15 +219,15 @@ main {
 
 .figma-btn-movies {
     position: absolute;
-    left: 614px;
-    top: 516px;
-    width: 357px;
-    height: 138px;
+    left: 30.31%;
+    top: 47.78%;
+    width: 18.59%;
+    height: 12.78%;
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 45px;
-    line-height: 52px;
+    font-size: 2.34vw;
+    line-height: 1.16;
     letter-spacing: 0px;
     color: #FFFFFF;
     background: transparent;
@@ -243,21 +241,24 @@ main {
 }
 
 .figma-btn-movies:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+    transform: translateY(-4px);
+    opacity: 1;
+    background: rgba(203, 221, 228, 0.08);
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .figma-btn-series {
     position: absolute;
-    left: 1015px;
-    top: 516px;
-    width: 357px;
-    height: 138px;
+    left: 51.09%;
+    top: 47.78%;
+    width: 18.59%;
+    height: 12.78%;
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 45px;
-    line-height: 52px;
+    font-size: 2.34vw;
+    line-height: 1.16;
     letter-spacing: 0px;
     color: #FFFFFF;
     background: transparent;
@@ -271,8 +272,28 @@ main {
 }
 
 .figma-btn-series:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+    transform: translateY(-4px);
+    opacity: 1;
+    background: rgba(203, 221, 228, 0.08);
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.figma-subtitle {
+    position: absolute;
+    left: 50%;
+    top: 64.81%;
+    transform: translateX(-50%);
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: 200;
+    font-size: 1.46vw;
+    line-height: 1.29;
+    letter-spacing: 0.5px;
+    color: #FFFFFF;
+    text-align: center;
+    margin: 0;
+    white-space: nowrap;
 }
 
 /* Raffle Screen */
@@ -810,7 +831,7 @@ main {
 
 footer {
     text-align: center;
-    padding: 30px 20px;
+    padding: 15px 20px;
     color: #CBDDE4;
     font-size: 0.9rem;
     border-top: 1px solid rgba(228, 35, 36, 0.2);
@@ -824,8 +845,71 @@ footer {
     .figma-container {
         width: 100vw;
         height: 100vh;
-        transform: scale(0.4);
-        transform-origin: center center;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 5px 15px;
+        overflow-y: auto;
+        position: relative;
+    }
+
+    .figma-logo {
+        position: static;
+        font-size: 24px;
+        line-height: 32px;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+        flex: 0 0 auto;
+    }
+
+    .figma-about {
+        position: absolute;
+        right: 15px;
+        top: 5px;
+        font-size: 14px;
+        line-height: 32px;
+        text-align: right;
+        margin: 0;
+        padding: 0;
+    }
+
+    .figma-navbar-line {
+        position: static;
+        width: 100%;
+        margin: 5px 0 0 0;
+        flex: 0 0 auto;
+    }
+
+    .figma-btn-movies {
+        position: static;
+        width: 100%;
+        max-width: 320px;
+        height: 100px;
+        font-size: 28px;
+        margin: 60px auto 20px;
+        flex: 0 0 auto;
+    }
+
+    .figma-btn-series {
+        position: static;
+        width: 100%;
+        max-width: 320px;
+        height: 100px;
+        font-size: 28px;
+        margin: 0 auto 20px;
+        flex: 0 0 auto;
+    }
+
+    .figma-subtitle {
+        position: static;
+        transform: none;
+        font-size: 16px;
+        line-height: 24px;
+        white-space: normal;
+        max-width: 90%;
+        margin: 20px auto 0;
+        flex: 0 0 auto;
     }
 
     header h1 {
@@ -835,27 +919,6 @@ footer {
 
     .subtitle {
         font-size: 1rem;
-    }
-
-    .type-selector {
-        gap: 20px;
-        flex-direction: column;
-    }
-
-    .btn-type-selector {
-        width: 240px;
-        height: 240px;
-        gap: 15px;
-        border-radius: 16px;
-    }
-
-    .btn-icon {
-        font-size: 3.5rem;
-    }
-
-    .btn-text {
-        font-size: 1.2rem;
-        letter-spacing: 1px;
     }
 
     .movie-content {
@@ -894,5 +957,10 @@ footer {
         padding: 16px 40px;
         font-size: 1rem;
         letter-spacing: 1px;
+    }
+
+    footer {
+        padding: 10px 20px;
+        font-size: 0.8rem;
     }
 }
