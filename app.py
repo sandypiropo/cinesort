@@ -85,28 +85,39 @@ def raffle_movie():
             return jsonify({'error': 'API key not configured. Set TMDB_API_KEY in .env file'}), 500
         
         genre_id = request.args.get('genre_id')
-        random_page = random.randint(1, 500)
         
-        url = f'{TMDB_BASE_URL}/discover/movie'
-        params = {
-            'api_key': TMDB_API_KEY,
-            'language': 'en-US',
-            'sort_by': 'popularity.desc',
-            'page': random_page,
-            'vote_count.gte': 100
-        }
+        # Try with a lower page range first
+        max_attempts = 3
+        movies = []
         
-        # Handle LGBT+ as special case using keywords
-        if genre_id == '999999':  # Special ID for LGBT
-            params['with_keywords'] = '59967|59969|82295|162564'  # LGBT keywords
-        elif genre_id:
-            params['with_genres'] = genre_id
-        
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        
-        data = response.json()
-        movies = data.get('results', [])
+        for attempt in range(max_attempts):
+            # Use lower page numbers for better results
+            random_page = random.randint(1, 50 if attempt == 0 else 20)
+            
+            url = f'{TMDB_BASE_URL}/discover/movie'
+            params = {
+                'api_key': TMDB_API_KEY,
+                'language': 'en-US',
+                'sort_by': 'vote_average.desc',
+                'page': random_page,
+                'vote_count.gte': 50 if attempt > 0 else 100,
+                'vote_average.gte': 6.5 if attempt == 0 else 6.0  # Prefer good ratings
+            }
+            
+            # Handle LGBT+ as special case using keywords
+            if genre_id == '999999':  # Special ID for LGBT
+                params['with_keywords'] = '59967|59969|82295|162564'  # LGBT keywords
+            elif genre_id:
+                params['with_genres'] = genre_id
+            
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            
+            data = response.json()
+            movies = data.get('results', [])
+            
+            if movies:
+                break
         
         if not movies:
             return jsonify({'error': 'No movies found with the selected filters. Try another genre!'}), 404
@@ -174,28 +185,39 @@ def raffle_tv():
             return jsonify({'error': 'API key not configured. Set TMDB_API_KEY in .env file'}), 500
         
         genre_id = request.args.get('genre_id')
-        random_page = random.randint(1, 500)
         
-        url = f'{TMDB_BASE_URL}/discover/tv'
-        params = {
-            'api_key': TMDB_API_KEY,
-            'language': 'en-US',
-            'sort_by': 'popularity.desc',
-            'page': random_page,
-            'vote_count.gte': 50
-        }
+        # Try with a lower page range first
+        max_attempts = 3
+        shows = []
         
-        # Handle LGBT+ as special case using keywords
-        if genre_id == '999999':  # Special ID for LGBT
-            params['with_keywords'] = '59967|59969|82295|162564'  # LGBT keywords
-        elif genre_id:
-            params['with_genres'] = genre_id
-        
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        
-        data = response.json()
-        shows = data.get('results', [])
+        for attempt in range(max_attempts):
+            # Use lower page numbers for better results
+            random_page = random.randint(1, 50 if attempt == 0 else 20)
+            
+            url = f'{TMDB_BASE_URL}/discover/tv'
+            params = {
+                'api_key': TMDB_API_KEY,
+                'language': 'en-US',
+                'sort_by': 'vote_average.desc',
+                'page': random_page,
+                'vote_count.gte': 30 if attempt > 0 else 50,
+                'vote_average.gte': 6.5 if attempt == 0 else 6.0  # Prefer good ratings
+            }
+            
+            # Handle LGBT+ as special case using keywords
+            if genre_id == '999999':  # Special ID for LGBT
+                params['with_keywords'] = '59967|59969|82295|162564'  # LGBT keywords
+            elif genre_id:
+                params['with_genres'] = genre_id
+            
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            
+            data = response.json()
+            shows = data.get('results', [])
+            
+            if shows:
+                break
         
         if not shows:
             return jsonify({'error': 'No TV shows found with the selected filters. Try another genre!'}), 404
