@@ -39,11 +39,11 @@
                     <button id="btnRaffle" class="btn-raffle">
                         Raffle
                     </button>
-                    
+
                     <div class="genre-filter-toggle">
                         <a href="#" id="toggleGenreFilter">Click here to filter by genre</a>
                     </div>
-                    
+
                     <div class="genre-selector hidden" id="genreSelector">
                         <select id="genreSelect" class="genre-dropdown">
                             <option value="">All Genres</option>
@@ -79,10 +79,10 @@
                                     <span class="play-icon">▶</span> Watch Trailer
                                 </button>
                             </div>
-                            
+
                             <div class="movie-details">
                                 <div id="genres" class="genres"></div>
-                                
+
                                 <div class="credits">
                                     <p id="director" class="director"></p>
                                     <p id="cast" class="cast"></p>
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div id="trailerContainer" class="trailer-modal hidden">
                             <div class="trailer-modal-content">
                                 <button id="closeTrailer" class="close-trailer">✕</button>
@@ -160,7 +160,7 @@
         // Toggle genre filter
         const toggleGenreFilter = document.getElementById('toggleGenreFilter');
         const genreSelector = document.getElementById('genreSelector');
-        
+
         toggleGenreFilter.addEventListener('click', (e) => {
             e.preventDefault();
             genreSelector.classList.toggle('hidden');
@@ -299,21 +299,21 @@
                 console.error('Error:', err);
                 loading.classList.add('hidden');
                 result.classList.add('hidden');
-                
+
                 const erro = document.getElementById('erro');
                 const erroMensagem = document.querySelector('.erro-mensagem');
-                
+
                 // Check if it's a "not found" error
                 if (err.message.includes('No movies found') || err.message.includes('No TV shows found')) {
-                    erroMensagem.textContent = currentType === 'tv' 
+                    erroMensagem.textContent = currentType === 'tv'
                         ? 'No TV series found with the selected filters. Try another genre or "All Genres"!'
                         : 'No movies found with the selected filters. Try another genre or "All Genres"!';
                 } else {
                     erroMensagem.textContent = 'Oops! Something went wrong. Try again.';
                 }
-                
+
                 erro.classList.remove('hidden');
-                
+
                 setTimeout(() => {
                     erro.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 100);
@@ -326,7 +326,7 @@
             document.getElementById('erro').classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        
+
         // Trailer modal
         const btnTrailer = document.getElementById('btnTrailer');
         const trailerContainer = document.getElementById('trailerContainer');
@@ -343,7 +343,7 @@
             const iframe = document.getElementById('trailerFrame');
             iframe.src = iframe.src;
         });
-        
+
         document.getElementById('btnTentarNovamente').addEventListener('click', () => {
             document.getElementById('erro').classList.add('hidden');
             raffleMovie();
