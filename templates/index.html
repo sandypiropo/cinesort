@@ -10,8 +10,8 @@
 
 <body>
     <div class="particles"></div>
-    <div class="container">
-        <header>
+    <div class="container" id="appContainer">
+        <header id="mainHeader">
             <h1>CineSort</h1>
             <p class="subtitle">Don't know what to watch? Let destiny choose!</p>
         </header>
@@ -19,15 +19,13 @@
         <main>
             <!-- Home Screen -->
             <div id="homeScreen" class="home-screen">
-                <div class="type-selector">
-                    <button id="btnMovies" class="btn-type-selector">
-                        <span class="btn-icon">🎬</span>
-                        <span class="btn-text">Movies</span>
-                    </button>
-                    <button id="btnSeries" class="btn-type-selector">
-                        <span class="btn-icon">📺</span>
-                        <span class="btn-text">TV Series</span>
-                    </button>
+                <div class="figma-container">
+                    <div class="figma-background"></div>
+                    <h1 class="figma-logo">CineSort</h1>
+                    <a href="#" class="figma-about">About this project</a>
+                    <div class="figma-navbar-line"></div>
+                    <button id="btnMovies" class="figma-btn-movies">Movies</button>
+                    <button id="btnSeries" class="figma-btn-series">TV Series</button>
                 </div>
             </div>
 
@@ -140,6 +138,8 @@
         const genreSelect = document.getElementById('genreSelect');
         const loading = document.getElementById('loading');
         const result = document.getElementById('result');
+        const mainHeader = document.getElementById('mainHeader');
+        const appContainer = document.getElementById('appContainer');
 
         // Navigation
         btnMovies.addEventListener('click', () => {
@@ -171,6 +171,7 @@
             raffleScreen.classList.add('hidden');
             result.classList.add('hidden');
             loading.classList.add('hidden');
+            mainHeader.style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -181,6 +182,7 @@
             loading.classList.add('hidden');
             genreSelector.classList.add('hidden');
             genreSelect.innerHTML = '<option value="">All Genres</option>';
+            mainHeader.style.display = 'block';
             loadGenres();
         }
 
