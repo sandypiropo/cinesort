@@ -8,6 +8,7 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-y: scroll;
 }
 
 body {
@@ -120,6 +121,7 @@ main {
     min-height: 100%;
     max-width: 1920px;
     overflow: visible;
+    z-index: 2;
 }
 
 .figma-background {
@@ -131,7 +133,8 @@ main {
     background-image: url('/static/filme.png');
     background-size: cover;
     background-position: center;
-    opacity: 0.8;
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 .figma-logo {
@@ -140,10 +143,10 @@ main {
     top: 8.33%;
     font-family: 'Raleway', sans-serif;
     font-style: normal;
-    font-weight: 200;
+    font-weight: 300;
     font-size: 2.34vw;
     line-height: 1.16;
-    letter-spacing: 0px;
+    letter-spacing: 2px;
     color: #FFFFFF;
     margin: 0;
     transition: left 0.5s ease, opacity 0.3s ease;
@@ -188,19 +191,20 @@ main {
     top: 9.72%;
     font-family: 'Raleway', sans-serif;
     font-style: normal;
-    font-weight: 200;
+    font-weight: 300;
     font-size: 1.25vw;
     line-height: 1.33;
-    letter-spacing: 0px;
-    color: #FFFFFF;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     display: flex;
     align-items: center;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .figma-about:hover {
-    opacity: 0.8;
+    color: #FFFFFF;
+    letter-spacing: 1.5px;
 }
 
 .figma-about.hidden {
@@ -214,7 +218,7 @@ main {
     top: 13.89%;
     width: 95.83%;
     height: 1px;
-    background: #FFFFFF;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
     opacity: 1;
 }
 
@@ -229,25 +233,24 @@ main {
     font-weight: 300;
     font-size: 2.34vw;
     line-height: 1.16;
-    letter-spacing: 0px;
+    letter-spacing: 3px;
     color: #FFFFFF;
     background: transparent;
-    border: 1px solid #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: 0px;
     cursor: pointer;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .figma-btn-movies:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     opacity: 1;
-    background: rgba(203, 221, 228, 0.08);
-    border-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
 }
 
 .figma-btn-series {
@@ -261,25 +264,24 @@ main {
     font-weight: 300;
     font-size: 2.34vw;
     line-height: 1.16;
-    letter-spacing: 0px;
+    letter-spacing: 3px;
     color: #FFFFFF;
     background: transparent;
-    border: 1px solid #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: 0px;
     cursor: pointer;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .figma-btn-series:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     opacity: 1;
-    background: rgba(203, 221, 228, 0.08);
-    border-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
 }
 
 .figma-subtitle {
@@ -289,7 +291,7 @@ main {
     transform: translateX(-50%);
     font-family: 'Raleway', sans-serif;
     font-style: normal;
-    font-weight: 200;
+    font-weight: 300;
     font-size: 1.46vw;
     line-height: 1.29;
     letter-spacing: 0.5px;
@@ -587,8 +589,8 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
 }
 
 .result-content {
@@ -881,7 +883,7 @@ main {
 }
 
 .error-message {
-    color: #ff6b6b;
+    color: #5a9ea0;
     font-size: 1rem;
     margin-bottom: 30px;
 }
@@ -894,48 +896,65 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
 }
 
 .erro-mensagem {
-    color: #5a9ea0;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Raleway', sans-serif;
     font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
     margin-bottom: 10px;
-    padding: 30px;
-    background: rgba(30, 49, 55, 0.3);
-    border: 2px solid rgba(30, 49, 55, 0.5);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
+    padding: 35px 40px;
+    background: rgba(30, 49, 55, 0.6);
+    border: 1px solid rgba(90, 158, 160, 0.4);
+    border-radius: 0px;
+    backdrop-filter: blur(20px);
     display: block;
     max-width: 500px;
     width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .erro-mensagem::before {
-    content: '⚠️';
-    display: block;
-    font-size: 3rem;
-    margin-bottom: 15px;
+    content: '!';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 20px;
+    color: #5a9ea0;
+    border: 1px solid rgba(90, 158, 160, 0.5);
+    border-radius: 50%;
+    background: rgba(30, 49, 55, 0.4);
 }
 
 .btn-sortear {
-    background: linear-gradient(135deg, #E42324 0%, #19272C 100%);
-    color: #CBDDE4;
-    border: none;
-    padding: 14px 40px;
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 16px 40px;
+    font-family: 'Raleway', sans-serif;
     font-size: 1rem;
-    border-radius: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    border-radius: 0px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    letter-spacing: 1px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     text-transform: uppercase;
-    box-shadow: 0 4px 16px rgba(228, 35, 36, 0.3);
+    box-shadow: none;
 }
 
 .btn-sortear:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(228, 35, 36, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
 }
 
 /* Responsividade */
@@ -1083,3 +1102,155 @@ main {
         letter-spacing: 1px;
     }
 }
+/* About Section */
+.about-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 850px;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease;
+}
+
+.about-container {
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(203, 221, 228, 0.1);
+    border-radius: 0px;
+    padding: 35px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+    position: relative;
+}
+
+.btn-close-about {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 2rem;
+    font-weight: 300;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.btn-close-about:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+    transform: rotate(90deg);
+}
+
+.about-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    color: #FFFFFF;
+    text-align: center;
+    margin: 0 0 25px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(203, 221, 228, 0.1);
+}
+
+.about-section {
+    margin-bottom: 20px;
+}
+
+.about-section:last-child {
+    margin-bottom: 0;
+}
+
+.about-section h3 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+    color: #5a9ea0;
+    margin: 0 0 10px 0;
+}
+
+.about-section p {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+}
+
+.about-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.about-features li {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    letter-spacing: 0.3px;
+    color: rgba(255, 255, 255, 0.85);
+    padding-left: 25px;
+    position: relative;
+    margin-bottom: 6px;
+}
+
+.about-features li:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    color: #5a9ea0;
+    font-size: 1.5rem;
+    line-height: 1.2;
+}
+
+.about-link {
+    color: #5a9ea0;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.about-link:hover {
+    color: #FFFFFF;
+    border-bottom-color: #5a9ea0;
+}
+
+@media (max-width: 768px) {
+    .about-content {
+        padding: 20px;
+    }
+
+    .about-container {
+        padding: 30px 25px;
+    }
+
+    .about-title {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+    }
+
+    .about-section h3 {
+        font-size: 1.1rem;
+    }
+
+    .about-section p,
+    .about-features li {
+        font-size: 0.9rem;
+    }
+}
+

@@ -19,7 +19,7 @@
                     <div class="figma-background"></div>
                     <h1 class="figma-logo" id="logoHome" style="cursor: pointer;">CineSort</h1>
                     <button id="btnBack" class="figma-back-btn hidden">← Back</button>
-                    <a href="#" class="figma-about" id="aboutHome">About this project</a>
+                    <a href="#" class="figma-about" id="aboutHome">About the project</a>
                     <div class="figma-navbar-line"></div>
 
                     <!-- Initial buttons -->
@@ -79,7 +79,7 @@
                                             Raffle Another
                                         </button>
                                         <button id="btnBackToRaffle" class="btn-back-raffle">
-                                            Back to Options
+                                            ← Back
                                         </button>
                                     </div>
                                 </div>
@@ -92,6 +92,45 @@
                         <button id="btnTentarNovamente" class="btn-sortear">
                             Try Again
                         </button>
+                    </div>
+
+                    <!-- About Section -->
+                    <div id="aboutContent" class="about-content hidden">
+                        <div class="about-container">
+                            <button id="btnCloseAbout" class="btn-close-about">×</button>
+                            <h2 class="about-title">About CineSort</h2>
+
+                            <div class="about-section">
+                                <h3>What is CineSort?</h3>
+                                <p>CineSort is a minimalist web application designed to help you discover your next
+                                    movie or TV series to watch. When you can't decide what to watch, let destiny choose
+                                    for you!</p>
+                            </div>
+
+                            <div class="about-section">
+                                <h3>How it works</h3>
+                                <p>Simply select between Movies or TV Series, optionally filter by genre, and click
+                                    Raffle. The app will randomly select a highly-rated option for you, complete with
+                                    all the details you need to make your decision.</p>
+                            </div>
+
+                            <div class="about-section">
+                                <h3>Features</h3>
+                                <ul class="about-features">
+                                    <li>Random movie and TV series recommendations</li>
+                                    <li>Filter by genre to find exactly what you're in the mood for</li>
+                                    <li>Beautiful, minimalist interface</li>
+                                    <li>Powered by TMDB API for accurate and up-to-date information</li>
+                                </ul>
+                            </div>
+
+                            <div class="about-section">
+                                <h3>Technology</h3>
+                                <p>Built with Flask, Python, and vanilla JavaScript. Data provided by <a
+                                        href="https://www.themoviedb.org/" target="_blank" rel="noopener"
+                                        class="about-link">The Movie Database (TMDB)</a>.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,6 +157,8 @@
         const loading = document.getElementById('loading');
         const result = document.getElementById('result');
         const appContainer = document.getElementById('appContainer');
+        const aboutContent = document.getElementById('aboutContent');
+        const btnCloseAbout = document.getElementById('btnCloseAbout');
 
         // Navigation
         btnMovies.addEventListener('click', () => {
@@ -144,6 +185,21 @@
         if (btnBack) {
             btnBack.addEventListener('click', () => {
                 currentType = null;
+                transitionToHome();
+            });
+        }
+
+        // Click no About abre a tela About
+        if (aboutHome) {
+            aboutHome.addEventListener('click', (e) => {
+                e.preventDefault();
+                transitionToAbout();
+            });
+        }
+
+        // Click no botão X fecha o About
+        if (btnCloseAbout) {
+            btnCloseAbout.addEventListener('click', () => {
                 transitionToHome();
             });
         }
@@ -197,20 +253,30 @@
         }
 
         function transitionToHome() {
-            // Fade out do conteúdo de raffle
+            // Desbloquear scroll
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+
+            // Fade out do conteúdo de raffle ou about
             raffleContent.style.opacity = '0';
             raffleContent.style.transition = 'opacity 0.3s ease';
+            aboutContent.style.opacity = '0';
+            aboutContent.style.transition = 'opacity 0.3s ease';
 
             setTimeout(() => {
-                // Esconder raffle e mostrar botões iniciais
+                // Esconder raffle, about e mostrar botões iniciais
                 raffleContent.classList.add('hidden');
+                aboutContent.classList.add('hidden');
                 initialButtons.classList.remove('hidden');
                 result.classList.add('hidden');
                 loading.classList.add('hidden');
 
                 // Restaurar about, logo e esconder back
                 aboutHome.classList.remove('hidden');
+                aboutHome.style.opacity = '1';
+                logoHome.classList.remove('hidden');
                 logoHome.classList.remove('moved');
+                logoHome.style.opacity = '1';
                 btnBack.classList.add('hidden');
 
                 // Fade in dos botões iniciais
@@ -222,6 +288,34 @@
             }, 300);
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function transitionToAbout() {
+            // Bloquear scroll
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+
+            // Fade out do conteúdo inicial
+            initialButtons.style.opacity = '0';
+            initialButtons.style.transition = 'opacity 0.3s ease';
+            aboutHome.style.opacity = '0';
+            logoHome.style.opacity = '0';
+
+            setTimeout(() => {
+                // Esconder inicial e mostrar About
+                initialButtons.classList.add('hidden');
+                raffleContent.classList.add('hidden');
+                aboutHome.classList.add('hidden');
+                logoHome.classList.add('hidden');
+                aboutContent.classList.remove('hidden');
+
+                // Fade in do About
+                aboutContent.style.opacity = '0';
+                setTimeout(() => {
+                    aboutContent.style.transition = 'opacity 0.3s ease';
+                    aboutContent.style.opacity = '1';
+                }, 10);
+            }, 300);
         }
 
         // Load genres on page load
