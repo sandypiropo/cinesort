@@ -9,6 +9,13 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# Enable CORS if flask-cors is available (for production)
+try:
+    from flask_cors import CORS
+    CORS(app)
+except ImportError:
+    pass  # CORS not needed for local development
+
 # TMDb API Configuration
 TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 TMDB_BASE_URL = 'https://api.themoviedb.org/3'

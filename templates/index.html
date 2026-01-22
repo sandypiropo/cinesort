@@ -441,6 +441,11 @@
                 const erro = document.getElementById('erro');
                 const erroMensagem = document.querySelector('.erro-mensagem');
 
+                // Esconder botões de raffle quando mostrar erro
+                document.getElementById('btnRaffle').classList.add('hidden');
+                document.querySelector('.genre-filter-toggle').classList.add('hidden');
+                document.getElementById('genreSelector').classList.add('hidden');
+
                 // Check if it's a "not found" error
                 if (err.message.includes('No movies found') || err.message.includes('No TV shows found')) {
                     erroMensagem.textContent = currentType === 'tv'
@@ -482,8 +487,26 @@
         }
 
         document.getElementById('btnTentarNovamente').addEventListener('click', () => {
+            // Esconder erro
             document.getElementById('erro').classList.add('hidden');
-            raffleMovie();
+
+            // Limpar backdrop
+            const backdropBg = document.getElementById('backdropBg');
+            backdropBg.style.backgroundImage = '';
+            backdropBg.classList.remove('active');
+
+            // Esconder resultado se estiver visível
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('loading').classList.add('hidden');
+
+            // Resetar filtro de gênero para "All Genres"
+            document.getElementById('genreSelect').value = '';
+            document.getElementById('genreSelector').classList.add('hidden');
+
+            // Mostrar tela de raffle
+            document.getElementById('raffleContent').classList.remove('hidden');
+            document.getElementById('btnRaffle').classList.remove('hidden');
+            document.querySelector('.genre-filter-toggle').classList.remove('hidden');
         });
 
         // Load genres when page loads
