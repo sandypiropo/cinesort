@@ -98,7 +98,6 @@ def raffle_movie():
         movies = []
         
         for attempt in range(max_attempts):
-            # Use lower page numbers for better results
             random_page = random.randint(1, 50 if attempt == 0 else 20)
             
             url = f'{TMDB_BASE_URL}/discover/movie'
