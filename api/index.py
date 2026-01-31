@@ -130,7 +130,12 @@ def raffle_movie():
         return jsonify({'error': f'Error fetching movie: {str(e)}'}), 500
     except Exception as e:
         print(f"Error: {traceback.format_exc()}")
+
         return jsonify({'error': f'Internal error: {str(e)}'}), 500
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 @app.route('/api/raffle-tv', methods=['GET'])
