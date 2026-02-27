@@ -1,46 +1,46 @@
-# Deploy no Vercel - Instruções
+# Deploy on Vercel - Instructions
 
-## Passos para configurar:
+## Setup Steps:
 
-### 1. Variável de Ambiente
-No painel do Vercel, você precisa adicionar a variável de ambiente:
+### 1. Environment Variable
+In the Vercel dashboard, you need to add the environment variable:
 
-1. Vá em **Settings** → **Environment Variables**
-2. Adicione:
-   - **Nome**: `TMDB_API_KEY`
-   - **Valor**: sua chave da API do TMDB
-   - **Environments**: Production, Preview, Development (selecione todos)
+1. Go to **Settings** → **Environment Variables**
+2. Add:
+   - **Name**: `TMDB_API_KEY`
+   - **Value**: your TMDB API key
+   - **Environments**: Production, Preview, Development (select all)
 
-### 2. Build Settings (configuração automática via vercel.json)
-O arquivo `vercel.json` já está configurado, mas verifique se está assim:
+### 2. Build Settings (automatic configuration via vercel.json)
+The `vercel.json` file is already configured, but verify it looks like this:
 - **Framework Preset**: Other
-- **Build Command**: (deixe vazio)
-- **Output Directory**: (deixe vazio)
+- **Build Command**: (leave empty)
+- **Output Directory**: (leave empty)
 - **Install Command**: `pip install -r requirements.txt`
 
 ### 3. Redeploy
-Após adicionar a variável de ambiente:
-1. Vá em **Deployments**
-2. Clique nos três pontos do último deployment
-3. Selecione **Redeploy**
+After adding the environment variable:
+1. Go to **Deployments**
+2. Click the three dots on the latest deployment
+3. Select **Redeploy**
 
 ### Troubleshooting
 
-Se continuar dando erro "Oops something wrong":
+If you continue getting "Oops something wrong" error:
 
-1. **Verifique os logs**:
-   - No Vercel, vá em **Deployments** → clique no deployment → **Functions**
-   - Veja os logs de erro da função
+1. **Check the logs**:
+   - In Vercel, go to **Deployments** → click on deployment → **Functions**
+   - View the function error logs
 
-2. **Teste a API Key**:
-   - Certifique-se que a API key do TMDB está correta
-   - Teste em: https://api.themoviedb.org/3/genre/movie/list?api_key=SUA_KEY
+2. **Test the API Key**:
+   - Make sure the TMDB API key is correct
+   - Test at: https://api.themoviedb.org/3/genre/movie/list?api_key=YOUR_KEY
 
-3. **Verifique CORS**:
-   - Se necessário, pode precisar adicionar headers CORS
+3. **Check CORS**:
+   - If needed, you may need to add CORS headers
 
-### Obtendo a API Key do TMDB
-1. Acesse: https://www.themoviedb.org/settings/api
-2. Faça login ou crie uma conta
-3. Request uma API key (é grátis)
-4. Cole a key nas variáveis de ambiente do Vercel
+### Getting the TMDB API Key
+1. Visit: https://www.themoviedb.org/settings/api
+2. Login or create an account
+3. Request an API key (it's free)
+4. Paste the key in Vercel's environment variables

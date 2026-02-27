@@ -171,7 +171,7 @@
             transitionToRaffle();
         });
 
-        // Click no logo volta para home
+        // Click on logo returns to home screen
         if (logoHome) {
             logoHome.addEventListener('click', () => {
                 if (currentType !== null) {
@@ -181,7 +181,7 @@
             });
         }
 
-        // Click no botão Back volta para home
+        // Click on back button returns to home screen
         if (btnBack) {
             btnBack.addEventListener('click', () => {
                 currentType = null;
@@ -189,7 +189,7 @@
             });
         }
 
-        // Click no About abre a tela About
+        // Click on about link opens about screen
         if (aboutHome) {
             aboutHome.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -197,14 +197,14 @@
             });
         }
 
-        // Click no botão X fecha o About
+        // Click on close button closes about screen
         if (btnCloseAbout) {
             btnCloseAbout.addEventListener('click', () => {
                 transitionToHome();
             });
         }
 
-        // Botão voltar no resultado
+        // Back button in result returns to raffle screen
         if (btnBackResult) {
             btnBackResult.addEventListener('click', () => {
                 result.classList.add('hidden');
@@ -222,23 +222,23 @@
         });
 
         function transitionToRaffle() {
-            // Ocultar about e mover logo
+            // Hide about section and move logo
             aboutHome.classList.add('hidden');
             logoHome.classList.add('moved');
             btnBack.classList.remove('hidden');
 
-            // Fade out dos botões iniciais
+            // Fade out initial buttons
             initialButtons.style.opacity = '0';
             initialButtons.style.transition = 'opacity 0.3s ease';
 
             setTimeout(() => {
-                // Esconder botões iniciais e mostrar conteúdo de raffle
+                // Hide initial buttons and show raffle content
                 initialButtons.classList.add('hidden');
                 raffleContent.classList.remove('hidden');
                 result.classList.add('hidden');
                 loading.classList.add('hidden');
 
-                // Fade in do conteúdo de raffle
+                // Fade in raffle content
                 raffleContent.style.opacity = '0';
                 setTimeout(() => {
                     raffleContent.style.transition = 'opacity 0.3s ease';
@@ -253,25 +253,25 @@
         }
 
         function transitionToHome() {
-            // Desbloquear scroll
+            // Unlock scroll
             document.documentElement.style.overflow = '';
             document.body.style.overflow = '';
 
-            // Fade out do conteúdo de raffle ou about
+            // Fade out raffle or about content
             raffleContent.style.opacity = '0';
             raffleContent.style.transition = 'opacity 0.3s ease';
             aboutContent.style.opacity = '0';
             aboutContent.style.transition = 'opacity 0.3s ease';
 
             setTimeout(() => {
-                // Esconder raffle, about e mostrar botões iniciais
+                // Hide raffle and about, show initial buttons
                 raffleContent.classList.add('hidden');
                 aboutContent.classList.add('hidden');
                 initialButtons.classList.remove('hidden');
                 result.classList.add('hidden');
                 loading.classList.add('hidden');
 
-                // Restaurar about, logo e esconder back
+                // Restore about and logo, hide back button
                 aboutHome.classList.remove('hidden');
                 aboutHome.style.opacity = '1';
                 logoHome.classList.remove('hidden');
@@ -279,7 +279,7 @@
                 logoHome.style.opacity = '1';
                 btnBack.classList.add('hidden');
 
-                // Fade in dos botões iniciais
+                // Fade in initial buttons
                 initialButtons.style.opacity = '0';
                 setTimeout(() => {
                     initialButtons.style.transition = 'opacity 0.3s ease';
@@ -291,25 +291,25 @@
         }
 
         function transitionToAbout() {
-            // Bloquear scroll
+            // Lock scroll
             document.documentElement.style.overflow = 'hidden';
             document.body.style.overflow = 'hidden';
 
-            // Fade out do conteúdo inicial
+            // Fade out initial content
             initialButtons.style.opacity = '0';
             initialButtons.style.transition = 'opacity 0.3s ease';
             aboutHome.style.opacity = '0';
             logoHome.style.opacity = '0';
 
             setTimeout(() => {
-                // Esconder inicial e mostrar About
+                // Hide initial content and show about
                 initialButtons.classList.add('hidden');
                 raffleContent.classList.add('hidden');
                 aboutHome.classList.add('hidden');
                 logoHome.classList.add('hidden');
                 aboutContent.classList.remove('hidden');
 
-                // Fade in do About
+                // Fade in about content
                 aboutContent.style.opacity = '0';
                 setTimeout(() => {
                     aboutContent.style.transition = 'opacity 0.3s ease';
@@ -410,7 +410,7 @@
                     backdrop.classList.add('active');
                 }
 
-                // Esconder botões de raffle e genre quando mostrar resultado
+                // Hide raffle and genre buttons when showing result
                 document.getElementById('btnRaffle').classList.add('hidden');
                 document.querySelector('.genre-filter-toggle').classList.add('hidden');
                 document.getElementById('genreSelector').classList.add('hidden');
@@ -421,7 +421,7 @@
                     backdropBg.classList.add('active');
                 }
 
-                // Esconder botões de raffle e genre quando mostrar resultado
+                // Hide raffle and genre buttons when showing result
                 document.getElementById('btnRaffle').classList.add('hidden');
                 document.querySelector('.genre-filter-toggle').classList.add('hidden');
                 document.getElementById('genreSelector').classList.add('hidden');
@@ -441,7 +441,7 @@
                 const erro = document.getElementById('erro');
                 const erroMensagem = document.querySelector('.erro-mensagem');
 
-                // Esconder botões de raffle quando mostrar erro
+                // Hide raffle buttons when showing error
                 document.getElementById('btnRaffle').classList.add('hidden');
                 document.querySelector('.genre-filter-toggle').classList.add('hidden');
                 document.getElementById('genreSelector').classList.add('hidden');
@@ -473,7 +473,7 @@
             raffleMovie();
         });
 
-        // Botão Back para voltar à configuração
+        // Back button returns to raffle configuration screen
         const btnBackToRaffle = document.getElementById('btnBackToRaffle');
         if (btnBackToRaffle) {
             btnBackToRaffle.addEventListener('click', () => {
@@ -487,23 +487,23 @@
         }
 
         document.getElementById('btnTentarNovamente').addEventListener('click', () => {
-            // Esconder erro
+            // Hide error message
             document.getElementById('erro').classList.add('hidden');
 
-            // Limpar backdrop
+            // Clear backdrop
             const backdropBg = document.getElementById('backdropBg');
             backdropBg.style.backgroundImage = '';
             backdropBg.classList.remove('active');
 
-            // Esconder resultado se estiver visível
+            // Hide result if visible
             document.getElementById('result').classList.add('hidden');
             document.getElementById('loading').classList.add('hidden');
 
-            // Resetar filtro de gênero para "All Genres"
+            // Reset genre filter to "All Genres"
             document.getElementById('genreSelect').value = '';
             document.getElementById('genreSelector').classList.add('hidden');
 
-            // Mostrar tela de raffle
+            // Show raffle screen
             document.getElementById('raffleContent').classList.remove('hidden');
             document.getElementById('btnRaffle').classList.remove('hidden');
             document.querySelector('.genre-filter-toggle').classList.remove('hidden');
