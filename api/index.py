@@ -18,14 +18,48 @@ TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'
 
 @app.route('/')
 def index():
+    """
+    Renders the main application page.
+    
+    Returns:
+        str: Rendered HTML template for the home page.
+    """
     return render_template('index.html')
 
 
 @app.route('/api/genres')
 def get_genres():
+    """
+    Fetches available movie genres from TMDb API.
+    
+    Retrieves all movie genres from TMDB and appends a custom 'LGBT+' genre
+    for inclusive content filtering.
+    
+    Returns:
+        dict: JSON object with 'genres' list containing genre id and name.
+        tuple: Error response with status code 500 if API key is not configured
+               or if request fails.
+        
+    Raises:
+        Exception: Catches and returns any request exceptions as JSON error.
+    """
     try:
         if not TMDB_API_KEY:
             return jsonify({'error': 'API key not configured'}), 500
+    """
+    Fetches available TV show genres from TMDb API.
+    
+    Retrieves all TV show genres from TMDB and appends a custom 'LGBT+' genre
+    for inclusive content filtering.
+    
+    Returns:
+        dict: JSON object with 'genres' list containing genre id and name.
+        tuple: Error response with status code 500 if API key is not configured
+               or if request fails.
+        
+    Raises:
+        Exception: Catches and returns any request exceptions as JSON error.
+    """
         url = f'{TMDB_BASE_URL}/genre/movie/list'
         params = {'api_key': TMDB_API_KEY, 'language': 'en-US'}
         response = requests.get(url, params=params)
@@ -43,6 +77,27 @@ def get_genres_tv():
     try:
         if not TMDB_API_KEY:
             return jsonify({'error': 'API key not configured'}), 500
+    """
+    Performs a random movie raffle with optional genre filtering.
+    
+    Fetches a random high-rated movie from TMDb, with retry mechanism
+    to handle cases where no results are found. Optionally filters by genre.
+    Special handling for 'LGBT+' genre (id 999999) using keyword filtering.
+    
+    Query Parameters:
+        genre_id (str, optional): TMDb genre ID or 999999 for LGBT+ content.
+                                 Defaults to all genres if not provided.
+    
+    Returns:
+        dict: Movie data including title, synopsis, poster, rating, cast,
+              director, release date, runtime, genres, and trailer URL.
+        tuple: Error response with status code 404 if no movies found
+               or 500 if API key is missing or request fails.
+               
+    Raises:
+        RequestException: Handled and returned as JSON error response.
+        Exception: Generic exceptions logged and returned as JSON error.
+    """
         url = f'{TMDB_BASE_URL}/genre/tv/list'
         params = {'api_key': TMDB_API_KEY, 'language': 'en-US'}
         response = requests.get(url, params=params)
@@ -105,6 +160,28 @@ def raffle_movie():
         movie_data = {
             'id': details['id'],
             'title': details.get('title', 'Title not available'),
+    """
+    Performs a random TV show raffle with optional genre filtering.
+    
+    Fetches a random high-rated TV show from TMDb, with retry mechanism
+    to handle cases where no results are found. Optionally filters by genre.
+    Special handling for 'LGBT+' genre (id 999999) using keyword filtering.
+    
+    Query Parameters:
+        genre_id (str, optional): TMDb genre ID or 999999 for LGBT+ content.
+                                 Defaults to all genres if not provided.
+    
+    Returns:
+        dict: TV show data including title, synopsis, poster, rating, cast,
+              creator/producer, release date, episode runtime, genres, and
+              trailer URL.
+        tuple: Error response with status code 404 if no shows found
+               or 500 if API key is missing or request fails.
+               
+    Raises:
+        RequestException: Handled and returned as JSON error response.
+        Exception: Generic exceptions logged and returned as JSON error.
+    """
             'original_title': details.get('original_title', ''),
             'synopsis': details.get('overview', 'Synopsis not available'),
             'poster': f"{TMDB_IMAGE_BASE_URL}{details['poster_path']}" if details.get('poster_path') else None,
