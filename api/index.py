@@ -20,7 +20,7 @@ TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'
 def index():
     """
     Renders the main application page.
-    
+
     Returns:
         str: Rendered HTML template for the home page.
     """
@@ -31,15 +31,15 @@ def index():
 def get_genres():
     """
     Fetches available movie genres from TMDb API.
-    
+
     Retrieves all movie genres from TMDB and appends a custom 'LGBT+' genre
     for inclusive content filtering.
-    
+
     Returns:
         dict: JSON object with 'genres' list containing genre id and name.
         tuple: Error response with status code 500 if API key is not configured
                or if request fails.
-        
+
     Raises:
         Exception: Catches and returns any request exceptions as JSON error.
     """
@@ -60,14 +60,14 @@ def get_genres():
     Raises:
         Exception: Catches and returns any request exceptions as JSON error.
     """
-        url = f'{TMDB_BASE_URL}/genre/movie/list'
-        params = {'api_key': TMDB_API_KEY, 'language': 'en-US'}
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
-        genres = data.get('genres', [])
-        genres.append({'id': 999999, 'name': 'LGBT+'})
-        return {'genres': genres}
+    url = f'{TMDB_BASE_URL}/genre/movie/list'
+    params = {'api_key': TMDB_API_KEY, 'language': 'en-US'}
+    response = requests.get(url, params=params)
+    response.raise_for_status()
+    data = response.json()
+    genres = data.get('genres', [])
+    genres.append({'id': 999999, 'name': 'LGBT+'})
+    return {'genres': genres}
     except Exception as e:
         return jsonify({'error': f'Error fetching genres: {str(e)}'}), 500
 
@@ -98,14 +98,14 @@ def get_genres_tv():
         RequestException: Handled and returned as JSON error response.
         Exception: Generic exceptions logged and returned as JSON error.
     """
-        url = f'{TMDB_BASE_URL}/genre/tv/list'
-        params = {'api_key': TMDB_API_KEY, 'language': 'en-US'}
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
-        genres = data.get('genres', [])
-        genres.append({'id': 999999, 'name': 'LGBT+'})
-        return {'genres': genres}
+    url = f'{TMDB_BASE_URL}/genre/tv/list'
+    params = {'api_key': TMDB_API_KEY, 'language': 'en-US'}
+    response = requests.get(url, params=params)
+    response.raise_for_status()
+    data = response.json()
+    genres = data.get('genres', [])
+    genres.append({'id': 999999, 'name': 'LGBT+'})
+    return {'genres': genres}
     except Exception as e:
         return jsonify({'error': f'Error fetching genres: {str(e)}'}), 500
 
@@ -160,7 +160,7 @@ def raffle_movie():
         movie_data = {
             'id': details['id'],
             'title': details.get('title', 'Title not available'),
-    """
+            """
     Performs a random TV show raffle with optional genre filtering.
     
     Fetches a random high-rated TV show from TMDb, with retry mechanism
